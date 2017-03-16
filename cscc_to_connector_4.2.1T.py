@@ -2,8 +2,9 @@
 #且對於同功能名稱但有不同接頭的情況進行比對區分
 #模糊比對採用find()函式手法, 缺點:無法比對同功能名稱,但字串順序不同的狀況
 #模糊比對增加set()函式手法, 可比對同功能名稱但字串順序不同的狀況
-#增加端子比對功能,包含樂榮與矢崎,但不含台裕線束
+#增加端子比對功能
 #4.2.1T版本追加: 如果端子廠商比對結果不同,就把儲存格反紅
+#追加資料夾路徑指示
 
 import openpyxl
 import re
@@ -256,13 +257,14 @@ def moreConnector(connector, dit, getsheet, i):
 
 
 #================載入樂榮CSCC ============
+Data_local="c:\\Python34\\DATA\\"
 CSCC_Name=['24010-KN711-CSCC-161214.xlsx', '24012-KN711-CSCC-161214.xlsx',
            '24068-KN711-CSCC-161214.xlsx','24023-KN711-CSCC-170307.xlsx']
 print("創建Excel物件....CSCC")
 cscc_conn={}
 for CsccName in CSCC_Name:
-    print("載入 %s" % CsccName)
-    wb, sheetname=loadExcel(CsccName)
+    print("載入 %s" % (Data_local+CsccName))
+    wb, sheetname=loadExcel(Data_local+CsccName)
     for shet in sheetname:
         getsheet=wb.get_sheet_by_name(shet)
         for i in range(25, int(getsheet.max_row)+1):
@@ -270,16 +272,16 @@ for CsccName in CSCC_Name:
 
 #================載入矢崎CSCC==============
 CsccName1='24011-KN711-CSCC-161104.xlsx'
-print("載入 %s ..." % CsccName1)
-wb3,sheetname3=loadExcel(CsccName1)
+print("載入 %s ..." % (Data_local+CsccName1))
+wb3,sheetname3=loadExcel(Data_local+CsccName1)
 getsheet3=wb3.get_sheet_by_name(sheetname3[0])
 for i in range(25, int(getsheet3.max_row)+1):
     cscc_conn=cscc(cscc_conn,i,getsheet3,14,15,27)
 
 #===============比對Connector List與cscc內容=======
 connector_list='GPKMC_Connector list_R-2版_NEW2.xlsx'
-print("載入 %s" % connector_list)
-wb2,sheet2=loadExcel(connector_list)
+print("載入 %s" % (Data_local+connector_list))
+wb2,sheet2=loadExcel(Data_local+connector_list)
 getcbsheet=wb2.get_sheet_by_name(sheet2[0])
 for i in range(4, int(getcbsheet.max_row)+1):
     if getcbsheet.cell(row=i, column=10).value is None: #如果功能名稱是None,就跳過
@@ -308,5 +310,5 @@ print(str(datetime.now()))
 print("Match %s items" % num)
 
 print("Save File...")
-wb2.save('GPKMC_Connector list_test7T.xlsx')
+wb2.save(Data_local+'GPKMC_Connector list_test7T.xlsx')
 print("Done")
