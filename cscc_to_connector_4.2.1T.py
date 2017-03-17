@@ -10,6 +10,7 @@ import openpyxl
 import re
 from datetime import datetime
 from openpyxl.styles import PatternFill
+
 Color_red=PatternFill(fgColor='DC143C', fill_type="darkUp") #作用為如果廠商不同廠,可把儲存格顏色反紅
 num=0
 def loadExcel(filename): #返回某個EXCEL檔案的所有sheet的串列
