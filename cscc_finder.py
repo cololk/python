@@ -2,7 +2,7 @@
 import openpyxl
 import re
 from datetime import datetime
-from openpyxl.styles import PatternFill
+import tkinter as tk
 
 def loadExcel(filename): #返回某個EXCEL檔案的所有sheet的串列
     wb=openpyxl.load_workbook(filename)
@@ -144,12 +144,26 @@ def cscc(dit,i, getsheet,col_function,col_num,col_maker ):
                 dit[L12].append(T13)
                 dit[L12].append(HT25)
                 print("The connector %s append %s" % (L12, (HF25+' '+H13)))
-                theSameName(dit, L12, getsheet, i, 2,col_num,col_maker)
-  
+                theSameName(dit, L12, getsheet, i, 2,col_num,col_maker)  
     return dit
 
+#===================主要判斷邏輯===================
+def finder():
+    connector_no=enter_string.get()
+    flag=0
+    for csccname in cscc_conn:
+        for j in range(0,len(cscc_conn[csccname]),4):
+            if (cscc_conn[csccname][j+1]+' '+cscc_conn[csccname][j]).upper().strip().replace('_', ' ').replace('-',' ')==connector_no.upper().strip().replace('_', ' ').replace('-',' '):
+                print("[+]Find %s is used on %s" % (connector_no, csccname))
+                text1.insert('end', "[+]Find %s is used on %s" % (connector_no, csccname))
+                flag=1
+                break
+    if flag==0:
+        print("[-]Not find")
+        text1.insert('end',"[-]Not find" )
 
-    #================載入樂榮CSCC ============
+
+#================載入樂榮CSCC ============
 Data_local="c:\\Python34\\DATA\\"
 CSCC_Name=['24010-KN711-CSCC-161214.xlsx', '24012-KN711-CSCC-161214.xlsx',
            '24068-KN711-CSCC-161214.xlsx','24023-KN711-CSCC-170307.xlsx']
@@ -171,20 +185,18 @@ getsheet3=wb3.get_sheet_by_name(sheetname3[0])
 for i in range(25, int(getsheet3.max_row)+1):
     cscc_conn=cscc(cscc_conn,i,getsheet3,14,15,27)
 
-#===================主程序===================
-while True:	
-	connector_no=input("Please input connector_no :")
-	if connector_no=='q':
-		break
-	else:
-		flag=0
-		for csccname in cscc_conn:
-	
-			for j in range(0,len(cscc_conn[csccname]),4):
-				if (cscc_conn[csccname][j+1]+' '+cscc_conn[csccname][j]).upper().strip().replace('_', ' ').replace('-',' ')==connector_no.upper().strip().replace('_', ' ').replace('-',' '):
-					print("[+]Find %s is used on %s" % (connector_no, csccname))
-					flag=1
-					break
-		if flag==0:
-			print("[-]Not find")
+#===============視窗程序================
+window = tk.Tk()
+window.title('CSCC_Finder')
+window.geometry('300x200') #寬X高
 
+enter_string = tk.Entry(window, show=None) #show選擇None,不會特別影藏輸入的字串
+enter_string.pack()
+
+button1 = tk.Button(window, text='Search', width=7,height=1, command=finder)
+button1.pack()
+
+text1 = tk.Text(window, height=150,width=190)
+text1.pack()
+
+window.mainloop()
