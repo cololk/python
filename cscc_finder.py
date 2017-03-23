@@ -1,4 +1,5 @@
 #本程式可以讓使用者輸入欲查詢的料號,會返回資料庫比對確認的結果
+# -*- coding: utf-8 -*-
 import openpyxl
 import re
 from datetime import datetime
