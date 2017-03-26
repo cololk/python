@@ -9,7 +9,7 @@ def trans(cgetsheet):
 		lis.append(cgetsheet.cell(row=i, column=1).value)
 	return set(lis)
     
-wb=openpyxl.load_workbook('C:\\Python27\\TEST001.xlsx')
+wb=openpyxl.load_workbook('C:\\demo\\python\\B版改C版差異_AH_AK.xlsx')
 sheetname=wb.get_sheet_names()
 for i in range(0,len(sheetname)):
     getsheet=wb.get_sheet_by_name(sheetname[i])
