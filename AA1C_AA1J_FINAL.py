@@ -4,24 +4,28 @@
 import openpyxl
 
 def trans(cgetsheet):
-	lis=[]
-	for i in range(2,cgetsheet.max_row+1):
-		lis.append(cgetsheet.cell(row=i, column=1).value)
-	return set(lis)
+	lis={}
+	for i in range(3,cgetsheet.max_row+1):
+		lis[cgetsheet.cell(row=i,column=1).value]=cgetsheet.cell(row=i, column=2).value
+	return lis
     
+<<<<<<< HEAD
 wb=openpyxl.load_workbook('C:\\demo\\python\\B版改C版差異_AH_AK.xlsx')
+=======
+wb=openpyxl.load_workbook('C:\\Python27\\TEST002.xlsx')
+>>>>>>> ea2327774cd354ebc46a4e98a8fa53b083ddc24b
 sheetname=wb.get_sheet_names()
 for i in range(0,len(sheetname)):
     getsheet=wb.get_sheet_by_name(sheetname[i])
     if i==0:
-    	s1=trans(getsheet)
-    elif i==1:
-    	s2=trans(getsheet)
-    elif i==2:
-    	s3=trans(getsheet)
+    	L1=trans(getsheet)
+    	s1=set(L1)
     else:
-    	s4=trans(getsheet)
+    	L2=trans(getsheet)
+    	s2=set(L2)
 print("第一組差異為:")
 print(s1.symmetric_difference(s2))
-print("第二組差異為:")
-print(s3.symmetric_difference(s4))
+
+
+
+
