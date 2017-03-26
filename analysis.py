@@ -12,7 +12,7 @@ def trans(cgetsheet):
 		lis[cgetsheet.cell(row=i,column=1).value]=cgetsheet.cell(row=i, column=2).value
 	return lis
     
-wb=openpyxl.load_workbook('C:\\Python27\\TEST002.xlsx')
+wb=openpyxl.load_workbook('INPUT.xlsx')
 sheetname=wb.get_sheet_names()
 for i in range(0,len(sheetname)):
     getsheet=wb.get_sheet_by_name(sheetname[i])
@@ -76,7 +76,7 @@ for dif in diff:
 
 
 
-wb.save("C:\\python27\\TEST002_OUTPUT.xlsx")
+wb.save("OUTPUT.xlsx")
 
 
 
