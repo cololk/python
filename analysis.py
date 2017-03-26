@@ -49,7 +49,7 @@ ws.cell(row=2,column=4).fill=Color_green
 ws.cell(row=2,column=5).value='FUNCTION'
 ws.cell(row=2,column=5).fill=Color_green
 
-#=========先將比對相同的部分填入OUTPUT
+#=========先將比對相同的部分填入OUTPUT===========
 for i in range (0, len(inter)):
 	j=i+3  #轉換成Excel輸入欄位
 	ws.cell(row=j, column=1).value=inter[i]
@@ -57,7 +57,7 @@ for i in range (0, len(inter)):
 	ws.cell(row=j, column=4).value=inter[i]
 	ws.cell(row=j, column=5).value=L2[inter[i]]
 
-#========再將不同的部分填入===========
+#========再將不同的部分填入====================
 k=1
 m=1
 for dif in diff:	
@@ -71,11 +71,6 @@ for dif in diff:
 		ws.cell(row=j+m, column=4).fill=Color_red
 		ws.cell(row=j+m, column=5).value=L2[dif]
 		m += 1
-
-
-
-
-
 wb.save("OUTPUT.xlsx")
 
 
