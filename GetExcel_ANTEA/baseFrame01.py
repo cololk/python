@@ -26,7 +26,7 @@ class baseWind ( wx.Frame ):
 		
 		sbSizer2 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, wx.EmptyString ), wx.HORIZONTAL )
 		
-		self.m_staticText2 = wx.StaticText( sbSizer2.GetStaticBox(), wx.ID_ANY, u"輸入安泰廠內料號", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText2 = wx.StaticText( sbSizer2.GetStaticBox(), wx.ID_ANY, u"載入查詢料號檔案", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText2.Wrap( -1 )
 		sbSizer2.Add( self.m_staticText2, 0, wx.ALL, 5 )
 		
@@ -38,13 +38,16 @@ class baseWind ( wx.Frame ):
 		
 		sbSizer3 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
 		
+		self.m_button2 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"載入資料", wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer3.Add( self.m_button2, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 5 )
+		
 		self.m_button1 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"開始搜尋", wx.DefaultPosition, wx.DefaultSize, 0 )
 		sbSizer3.Add( self.m_button1, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 5 )
 		
 		
 		bSizer1.Add( sbSizer3, 1, wx.EXPAND, 5 )
 		
-		sbSizer4 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"label" ), wx.VERTICAL )
+		sbSizer4 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"狀態訊息" ), wx.VERTICAL )
 		
 		self.m_textCtrl2 = wx.TextCtrl( sbSizer4.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 500,300 ), wx.HSCROLL|wx.TE_MULTILINE )
 		sbSizer4.Add( self.m_textCtrl2, 0, wx.ALL, 5 )
@@ -59,6 +62,7 @@ class baseWind ( wx.Frame ):
 		self.Centre( wx.BOTH )
 		
 		# Connect Events
+		self.m_button2.Bind( wx.EVT_BUTTON, self.LoadExcel )
 		self.m_button1.Bind( wx.EVT_BUTTON, self.Search )
 	
 	def __del__( self ):
@@ -66,6 +70,9 @@ class baseWind ( wx.Frame ):
 	
 	
 	# Virtual event handlers, overide them in your derived class
+	def LoadExcel( self, event ):
+		event.Skip()
+	
 	def Search( self, event ):
 		event.Skip()
 	
