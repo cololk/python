@@ -1,10 +1,55 @@
-# -*- coding: utf-8 -*-
-#本程式可以讓使用者輸入欲查詢的料號,會返回資料庫比對確認的結果
-
+#-*- coding:utf-8 -*-
+#將finder結合進視窗程序中
+import sys
+import wx
+import basewin #要繼承的主體框架檔案
 import openpyxl
 import re
 from datetime import datetime
 import tkinter as tk
+
+#============將Stdin轉到StaticText的特殊處理方式===============
+#object要代入欲被轉換為Stdin輸出容器的TextCtrl物件
+class RedirectText(object):
+    def __init__(self,aWxTextCtrl):
+        self.out=aWxTextCtrl
+
+    def write(self,string):
+        self.out.WriteText(string)
+
+#===========首先,先從basewin.py中繼承主框架===========
+class MainWindow(basewin.baseMainWindow):
+	#不能直接覆蓋原有的__init__()方法,這樣會導致Frame啟動失敗,故新建一個,然後再調用
+	#直接設定text_main的值, 這個def其實可省去,在這只是做為示範功能
+	def init_main_window(self):
+		self.text_main.SetValue("Input no")
+	def main_button_click(self, event):
+		self.text_main.Clear()
+		self.m_textCtrl2.Clear()
+	def init_redirectText(self):  #這是自行定義的方法,在後面的主函數中要特別呼叫
+		#展開輸出重新導向
+		redir=RedirectText(self.m_textCtrl2)
+		sys.stdout=redir
+
+
+#===================主要判斷邏輯===================
+	def finder(self,event):
+	    connector_no=self.text_main.GetValue()
+	    flag=0
+	    for csccname in cscc_conn:
+	        for j in range(0,len(cscc_conn[csccname]),4):
+	            if (cscc_conn[csccname][j+1]+' '+cscc_conn[csccname][j]).upper().strip().replace('_', ' ').replace('-',' ')==connector_no.upper().strip().replace('_', ' ').replace('-',' '):
+	                print("[+]Find %s is used on %s" % (connector_no, csccname))
+	                #self.Static_text.SetLabel("[+]Find %s is used on %s" % (connector_no, csccname))
+	                flag=1
+	                break
+	    if flag==0:
+	        print("[-]Not find")
+	        #self.Static_text.SetLabel("[-]Not find" )
+
+
+
+
 
 def loadExcel(filename): #返回某個EXCEL檔案的所有sheet的串列
     wb=openpyxl.load_workbook(filename)
@@ -149,20 +194,6 @@ def cscc(dit,i, getsheet,col_function,col_num,col_maker ):
                 theSameName(dit, L12, getsheet, i, 2,col_num,col_maker)  
     return dit
 
-#===================主要判斷邏輯===================
-def finder():
-    connector_no=enter_string.get()
-    flag=0
-    for csccname in cscc_conn:
-        for j in range(0,len(cscc_conn[csccname]),4):
-            if (cscc_conn[csccname][j+1]+' '+cscc_conn[csccname][j]).upper().strip().replace('_', ' ').replace('-',' ')==connector_no.upper().strip().replace('_', ' ').replace('-',' '):
-                print("[+]Find %s is used on %s" % (connector_no, csccname))
-                text1.insert('end', "[+]Find %s is used on %s" % (connector_no, csccname))
-                flag=1
-                break
-    if flag==0:
-        print("[-]Not find")
-        text1.insert('end',"[-]Not find" )
 
 
 #================載入樂榮CSCC ============
@@ -187,18 +218,14 @@ getsheet3=wb3.get_sheet_by_name(sheetname3[0])
 for i in range(25, int(getsheet3.max_row)+1):
     cscc_conn=cscc(cscc_conn,i,getsheet3,14,15,27)
 
-#===============視窗程序================
-window = tk.Tk()
-window.title('CSCC_Finder')
-window.geometry('300x200') #寬X高
 
-enter_string = tk.Entry(window, show=None) #show選擇None,不會特別影藏輸入的字串
-enter_string.pack()
+#================視窗主程序=================
+if __name__=='__main__':
+	app=wx.App()
+	# None的意思是表示此Frame沒有上層的父窗體,如果有,就直接在父窗體代碼調用的時候填入self就行了
+	main_win=MainWindow(None)
+	main_win.init_main_window()
+	main_win.init_redirectText()
+	main_win.Show()
+	app.MainLoop()
 
-button1 = tk.Button(window, text='Search', width=7,height=1, command=finder)
-button1.pack()
-
-text1 = tk.Text(window, height=150,width=190)
-text1.pack()
-
-window.mainloop()
