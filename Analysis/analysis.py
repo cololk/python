@@ -14,14 +14,12 @@ def trans(cgetsheet):
     
 wb=openpyxl.load_workbook('INPUT.xlsx')
 sheetname=wb.get_sheet_names()
+lis=[]
 for i in range(0,len(sheetname)):
     getsheet=wb.get_sheet_by_name(sheetname[i])
-    if i==0:
-    	L1=trans(getsheet)
-    	s1=set(L1)
-    else:
-    	L2=trans(getsheet)
-    	s2=set(L2)
+    lis.append(trans(getsheet))
+s1=set(lis[0])
+s2=set(lis[1])
 print("%s and %s difference:" %( sheetname[0], sheetname[1]))
 print(s1.symmetric_difference(s2))
 diff=list(s1.symmetric_difference(s2))
@@ -53,23 +51,23 @@ ws.cell(row=2,column=5).fill=Color_green
 for i in range (0, len(inter)):
 	j=i+3  #轉換成Excel輸入欄位
 	ws.cell(row=j, column=1).value=inter[i]
-	ws.cell(row=j, column=2).value=L1[inter[i]]
+	ws.cell(row=j, column=2).value=lis[0][inter[i]]
 	ws.cell(row=j, column=4).value=inter[i]
-	ws.cell(row=j, column=5).value=L2[inter[i]]
+	ws.cell(row=j, column=5).value=lis[1][inter[i]]
 
 #========再將不同的部分填入====================
 k=1
 m=1
 for dif in diff:	
-	if dif in L1:
+	if dif in lis[0]:
 		ws.cell(row=j+k, column=1).value=dif
 		ws.cell(row=j+k, column=1).fill=Color_red
-		ws.cell(row=j+k, column=2).value=L1[dif]
+		ws.cell(row=j+k, column=2).value=lis[0][dif]
 		k += 1
 	else:
 		ws.cell(row=j+m, column=4).value=dif
 		ws.cell(row=j+m, column=4).fill=Color_red
-		ws.cell(row=j+m, column=5).value=L2[dif]
+		ws.cell(row=j+m, column=5).value=lis[1][dif]
 		m += 1
 wb.save("OUTPUT.xlsx")
 
