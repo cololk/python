@@ -1,22 +1,18 @@
 #-*- coding:utf-8 -*-
 #本程式可進行圖譜的自動分析
+#具備開啟檔案話框功能
 import wx
 import sys
+import os
 import openpyxl
 from openpyxl.styles import PatternFill
 import frame
 import re
+
 Color_Green=PatternFill(fgColor='008000', fill_type="solid")
 Color_Red=PatternFill(fgColor='ff0000', fill_type="solid")
 Reg=re.compile(r'\d\d\d\d\d')
 lis=[] # lis的組成內容=[24010,SPEC_CODE,24011,SPEC_CODE,24012,SPEC_CODE]
-
-#=================載入Excel================
-print("Program Starting...")
-wb=openpyxl.load_workbook('GPK_DRAWING_LIST_AM_For_Test.xlsx')
-sheetname=wb.get_sheet_names()
-getsheet=wb.get_sheet_by_name(sheetname[0])
-print("載入%s...".decode('utf8') % sheetname[0])
 
 #===============視窗介面框架================
 #object要代入欲被轉換為Stdin輸出容器的TextCtrl物件
@@ -29,16 +25,35 @@ class RedirectText(object):
 
 class Myframe(frame.MyFrame1):
 	def init_Myframe(self):
-		self.m_textCtrl1.SetValue("GPK_DRAWING_LIST_AM_For_Test.xlsx")
+		self.m_textCtrl1.SetValue("Input Filename")
 
 	def init_redirectText(self):  #這是自行定義的方法,在後面的主函數中要特別呼叫
 		#輸出重新導向
 		redir=RedirectText(self.m_textCtrl2)
 		sys.stdout=redir
 
+	def openfile(self,event): #可開啟檔案對話框
+		global file
+		wildcard="Excel(*.xlsx)|*.xlsx"
+		dlg = wx.FileDialog(self, u"挑選你要的檔案_須轉檔為xlsx格式", os.getcwd(),"", wildcard, wx.OPEN)
+		dlg.ShowModal()
+		file = dlg.GetPath() #從此處取得要開啟的檔案名稱與路徑
+		dlg.Destroy()
+		self.m_textCtrl1.SetValue(file)
+
+
 	def loadExcel(self,event):
 		# column=7: SPEC CODE位置
 		# row=4: 車規位置
+		#=================載入Excel================
+		global sheetname, wb, lis
+		print("Program Starting...")
+		print(u"載入 %s..." % file)
+		wb=openpyxl.load_workbook(file)
+		sheetname=wb.get_sheet_names()
+		getsheet=wb.get_sheet_by_name(sheetname[0])
+		print("載入%s...".decode('utf8') % sheetname[0])	
+
 		#==============件號串列資料庫建立======================
 		print(u"開始建立件號組成資料...")
 		def GereratePartContent(num):

@@ -17,26 +17,34 @@ import wx.xrc
 class MyFrame1 ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"圖譜分析器", pos = wx.DefaultPosition, size = wx.Size( 509,347 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"圖譜分析器 v1.0", pos = wx.DefaultPosition, size = wx.Size( 509,347 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_MENU ) )
 		
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 		
-		sbSizer6 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"載入檔案" ), wx.VERTICAL )
+		sbSizer6 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"載入檔案" ), wx.HORIZONTAL )
 		
 		self.m_textCtrl1 = wx.TextCtrl( sbSizer6.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 300,-1 ), 0 )
 		sbSizer6.Add( self.m_textCtrl1, 0, wx.ALL, 5 )
 		
-		self.m_button1 = wx.Button( sbSizer6.GetStaticBox(), wx.ID_ANY, u"載入圖譜", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer6.Add( self.m_button1, 0, wx.ALL, 5 )
-		
-		self.m_button2 = wx.Button( sbSizer6.GetStaticBox(), wx.ID_ANY, u"開始分析", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer6.Add( self.m_button2, 0, wx.ALL, 5 )
+		self.m_button3 = wx.Button( sbSizer6.GetStaticBox(), wx.ID_ANY, u"開啟檔案", wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer6.Add( self.m_button3, 0, wx.ALL, 5 )
 		
 		
 		bSizer1.Add( sbSizer6, 1, wx.EXPAND|wx.FIXED_MINSIZE, 5 )
+		
+		sbSizer3 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
+		
+		self.m_button1 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"載入圖譜", wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer3.Add( self.m_button1, 0, wx.ALL, 5 )
+		
+		self.m_button2 = wx.Button( sbSizer3.GetStaticBox(), wx.ID_ANY, u"開始分析", wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer3.Add( self.m_button2, 0, wx.ALL, 5 )
+		
+		
+		bSizer1.Add( sbSizer3, 1, wx.EXPAND, 5 )
 		
 		sbSizer4 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"狀態訊息" ), wx.VERTICAL )
 		
@@ -44,7 +52,7 @@ class MyFrame1 ( wx.Frame ):
 		sbSizer4.Add( self.m_textCtrl2, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		bSizer1.Add( sbSizer4, 2, wx.EXPAND, 5 )
+		bSizer1.Add( sbSizer4, 3, wx.EXPAND, 5 )
 		
 		
 		self.SetSizer( bSizer1 )
@@ -53,6 +61,7 @@ class MyFrame1 ( wx.Frame ):
 		self.Centre( wx.BOTH )
 		
 		# Connect Events
+		self.m_button3.Bind( wx.EVT_BUTTON, self.openfile )
 		self.m_button1.Bind( wx.EVT_BUTTON, self.loadExcel )
 		self.m_button2.Bind( wx.EVT_BUTTON, self.analysis )
 	
@@ -61,6 +70,9 @@ class MyFrame1 ( wx.Frame ):
 	
 	
 	# Virtual event handlers, overide them in your derived class
+	def openfile( self, event ):
+		event.Skip()
+	
 	def loadExcel( self, event ):
 		event.Skip()
 	
