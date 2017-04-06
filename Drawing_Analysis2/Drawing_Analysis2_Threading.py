@@ -43,7 +43,7 @@ class Myframe(frame2.MyFrame1):
 		self.m_textCtrl3.SetValue(u"分頁檔案位置")
 
 	def init_redirectText(self):  #這是自行定義的方法,在後面的主函數中要特別呼叫
-		#輸出重新導向
+		#輸出重新導向到self.m_textCtrl2欄位
 		redir=RedirectText(self.m_textCtrl2)
 		sys.stdout=redir
 
