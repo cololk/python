@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 #本程式可實現將GPK_MC CSCC中的料號填入Connector list
 #且對於同功能名稱但有不同接頭的情況進行比對區分
 #模糊比對採用find()函式手法, 缺點:無法比對同功能名稱,但字串順序不同的狀況
@@ -5,6 +6,7 @@
 #增加端子比對功能
 #4.2.1T版本追加: 如果端子廠商比對結果不同,就把儲存格反紅
 #追加資料夾路徑指示
+#適用python2.7 & python3.4
 
 import openpyxl
 import re
@@ -247,7 +249,7 @@ def moreConnector(connector, dit, getsheet, i):
             getsheet.cell(row=i, column=26).value=dit[connector][j].lstrip('H:')
             getsheet.cell(row=i, column=30).value=dit[connector][j+3]
             getsheet.cell(row=i, column=31).value=dit[connector][j+2]
-            print("[%s]find connector %s match 日產編號 cscc,and is %s" % (i,connector,(dit[connector][j+1]+' '+dit[connector][j])))
+            print(u"[%s]find connector %s match 日產編號 cscc,and is %s" % (i,connector,(dit[connector][j+1]+' '+dit[connector][j])))
             if dit[connector][j+1] != dit[connector][j+3] and dit[connector][j+3] is not None:
                 getcbsheet.cell(row=i, column=30).fill=Color_red
             num += 1
@@ -259,7 +261,7 @@ def moreConnector(connector, dit, getsheet, i):
 
 #================載入樂榮CSCC ============
 Data_local="c:\\Python34\\DATA\\"
-CSCC_Name=['24010-KN711-CSCC-161214.xlsx', '24012-KN711-CSCC-161214.xlsx',
+CSCC_Name=['24010-KN711-CSCC-D.xlsx', '24012-KN711-CSCC-161214.xlsx',
            '24068-KN711-CSCC-161214.xlsx','24023-KN711-CSCC-170307.xlsx']
 print("創建Excel物件....CSCC")
 cscc_conn={}
@@ -280,7 +282,7 @@ for i in range(25, int(getsheet3.max_row)+1):
     cscc_conn=cscc(cscc_conn,i,getsheet3,14,15,27)
 
 #===============比對Connector List與cscc內容=======
-connector_list='GPKMC_Connector list_R-2版_NEW2.xlsx'
+connector_list='GPKMC_Connector list_R-2_NEW2.xlsx'
 print("載入 %s" % (Data_local+connector_list))
 wb2,sheet2=loadExcel(Data_local+connector_list)
 getcbsheet=wb2.get_sheet_by_name(sheet2[0])
