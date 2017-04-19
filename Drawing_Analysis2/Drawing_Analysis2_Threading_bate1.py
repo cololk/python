@@ -32,7 +32,9 @@ class CountEvent(wx.PyCommandEvent):
         return self._value
 
 #===============視窗介面框架================
+
 #object要代入欲被轉換為Stdin輸出容器的TextCtrl物件
+#此class主要處理標準輸出轉至視窗介面輸出的過程
 class RedirectText(object):
     def __init__(self,aWxTextCtrl):
         self.out=aWxTextCtrl
@@ -41,7 +43,7 @@ class RedirectText(object):
         self.out.WriteText(string)
 
 class Myframe(frame2.MyFrame1):
-	def init_Myframe(self):
+	def init_Myframe(self): #自行定義的方法,設定初始化狀態欄位顯示的文字
 		self.m_textCtrl1.SetValue(u"圖譜總檔位置")
 		self.m_textCtrl3.SetValue(u"分頁檔案位置")
 

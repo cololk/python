@@ -1,8 +1,14 @@
 #-*- coding:utf-8 -*-
 #本程式適用python3.4
-#移除視窗功能、移除多線程功能
-#進度:須進行writer()內容的定義
-
+#移除視窗功能、移除多線程功能，移除queue進行列隊處理的功能
+#進度:須進行writer()內容的定義,尚未完成
+'''
+紀錄:
+1.發現使用multiprocess處理openpyxl會導致記憶體內容被完整複製,將爆量使用記憶體,
+公司電腦記憶體僅有2Gb,無法使用此程式。
+2.使用queue進行列隊處理時,在最後儲存檔案時會報錯,但使用簡單版的excel進行測試卻無問題,
+可能是sheet_all.xlsx有某種未知參數導致此問題,故本程式test02版先移除queue列隊處理功能
+'''
 import sys
 import os
 import openpyxl
@@ -22,7 +28,7 @@ class wsDiff(object):
         self.column = column
         self.value = value
 
-def GereratePartContent(num,ws): #此為主程序1的副程式,主要進行多進程處理
+def GereratePartContent(num,ws): #主程序1的副程式,主要進行多進程處理
 	print(u"件號 %s 組成設定展開..." % ws.cell(row=4, column=ws.max_column-(16-num)).value)		
 	PartContent={}  # PartContent={'CM1':['AA1J','AA1B'], 'PD1':['AA1R','AB1A',...],...}
 	for j in range(5, ws.max_row+1): # j是圖譜的列數
@@ -38,7 +44,7 @@ def GereratePartContent(num,ws): #此為主程序1的副程式,主要進行多�
 	return  ws.cell(row=4, column=ws.max_column-(16-num)).value, PartContent
 
 def spec_code_analysis(): #主程序1,負責分析圖譜總表
-	file='SPEC_CODE.xlsx'
+	file='c:\\Python34\\SPEC_CODE.xlsx'
 	print(u"載入 %s..." % os.path.basename(file))
 	wb=openpyxl.load_workbook(file)
 	ws=wb.worksheets[0]
@@ -57,7 +63,7 @@ def spec_code_analysis(): #主程序1,負責分析圖譜總表
 	print(u"建立完成")
 	return results
 
-def ws_job(wb, ws_idx,results):
+def ws_job(wb, ws_idx,results):主程序2副程式,主要進行多進程處理
 	diff=[]
 	ws = wb.worksheets[ws_idx]
 	print('[PID %s]: process (%s)' % (os.getpid(), ws.title))
@@ -83,15 +89,15 @@ def ws_job(wb, ws_idx,results):
 	                                                	diff.append([i,k,u'\u25cf',Color_Red])
 	                                                    #ws.cell(row=i, column=k).value=u'\u25cf'
 	                                                    #ws.cell(row=i, column=k).fill=Color_Red
-	return ws_idx, diff    
+	return ws.title, diff    
 
-def writer(q_work,wb):
+def writer(Diffs,wb):#主程序3:進行檔案資料寫入
 	print("寫入 %s ..." % 'sheet_24010_24080.xlsx')
 	wb3 = openpyxl.load_workbook('sheet_24010_24080.xlsx')
 	for index in Diffs:
 		#尚待完成
 
-def sheet_analysis(results):
+def sheet_analysis(results): #主程序2:負責比對sheet與SPEC_CODE資料,並返回座標串列
 	print("載入 %s ..." % 'sheet_24010_24080.xlsx')
 	wb2 = openpyxl.load_workbook('sheet_24010_24080.xlsx')
 
@@ -106,7 +112,7 @@ def sheet_analysis(results):
 	for res in Diff:
 		Diffs.append(res.get())
 	print('Done')
-	return Diffs
+	return Diffs #格式為[('24010',[填值座標]) , ('24011',[填值座標]),...]
 
 
 	
