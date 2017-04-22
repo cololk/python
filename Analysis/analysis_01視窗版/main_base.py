@@ -1,4 +1,6 @@
 #-*- coding:utf-8 -*-
+#本程式可比對兩個sheet間的spec_code差異
+#適用python2.7
 import wx
 import guiframe
 import openpyxl
