@@ -3,6 +3,7 @@
 #適用Python2.7版
 #具備開啟檔案話框功能
 #具備多線程能力,可避免單線程時移動視窗會出現無回應的狀況
+#bate1版本-增加計時功能
 import wx
 import sys
 import os
