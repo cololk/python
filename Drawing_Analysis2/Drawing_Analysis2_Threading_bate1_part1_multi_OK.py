@@ -129,10 +129,9 @@ class loadExcel_Thread(threading.Thread):
                 result.append(res)
         pool.close()
         pool.join
-        print(u"建立完成")
         for item in result:
                 lis.append(item.get())
-                print(item.get()[0])
+                print(u"件號 %s SPEC CODE組成建立" % item.get()[0])
         print("Done")
         evt = CountEvent(myEVT_COUNT, -1, self._value)
         wx.PostEvent(self._parent, evt)
