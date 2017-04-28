@@ -17,7 +17,7 @@ import wx.xrc
 class MyFrame1 ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"圖譜分析器 v2.0", pos = wx.DefaultPosition, size = wx.Size( 460,560 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"圖譜分析器 v3.0", pos = wx.DefaultPosition, size = wx.Size( 460,647 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_MENU ) )
@@ -26,7 +26,7 @@ class MyFrame1 ( wx.Frame ):
 		
 		sbSizer42 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"前置步驟" ), wx.HORIZONTAL )
 		
-		self.m_staticText2 = wx.StaticText( sbSizer42.GetStaticBox(), wx.ID_ANY, u"輸入新增之車規欄數代號", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText2 = wx.StaticText( sbSizer42.GetStaticBox(), wx.ID_ANY, u"輸入車規欄數編號", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText2.Wrap( -1 )
 		sbSizer42.Add( self.m_staticText2, 0, wx.ALL, 5 )
 		
@@ -34,7 +34,7 @@ class MyFrame1 ( wx.Frame ):
 		sbSizer42.Add( self.m_textCtrl5, 0, wx.ALL, 5 )
 		
 		
-		bSizer1.Add( sbSizer42, 1, wx.EXPAND, 5 )
+		bSizer1.Add( sbSizer42, 1, wx.BOTTOM|wx.EXPAND|wx.LEFT|wx.RIGHT, 5 )
 		
 		sbSizer41 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"步驟1: 載入圖譜總表" ), wx.VERTICAL )
 		
