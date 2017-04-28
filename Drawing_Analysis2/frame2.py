@@ -24,6 +24,18 @@ class MyFrame1 ( wx.Frame ):
 		
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 		
+		sbSizer42 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"前置步驟" ), wx.HORIZONTAL )
+		
+		self.m_staticText2 = wx.StaticText( sbSizer42.GetStaticBox(), wx.ID_ANY, u"輸入新增之車規欄數代號", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText2.Wrap( -1 )
+		sbSizer42.Add( self.m_staticText2, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl5 = wx.TextCtrl( sbSizer42.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 250,-1 ), 0 )
+		sbSizer42.Add( self.m_textCtrl5, 0, wx.ALL, 5 )
+		
+		
+		bSizer1.Add( sbSizer42, 1, wx.EXPAND, 5 )
+		
 		sbSizer41 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"步驟1: 載入圖譜總表" ), wx.VERTICAL )
 		
 		gSizer2 = wx.GridSizer( 0, 2, 0, 0 )
