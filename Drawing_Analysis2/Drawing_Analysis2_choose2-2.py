@@ -23,7 +23,7 @@ from openpyxl.styles import Font
 from openpyxl.styles.colors import Color
 
 Color_Green=PatternFill(fgColor='008000', fill_type="solid")
-Color_Red=PatternFill(fgColor='FF8F59', fill_type="solid")
+Color_Red=PatternFill(fgColor='FFFF37', fill_type="solid") #黃色
 Reg=re.compile(r'\d\d\d\d\d')
 lis=[] # lis的組成內容=[24010,SPEC_CODE,24011,SPEC_CODE,24012,SPEC_CODE]
 
